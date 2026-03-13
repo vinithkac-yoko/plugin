@@ -45,23 +45,33 @@ def load_avatar(path):
 
 def get_patterns():
     if not clo:
+        log("STUB: returning fake pattern IDs")
         return [0, 1, 2, 3]
-    patterns = clo.GetAllPatternIDs()
-    log(f"Found {len(patterns)} pattern pieces: {patterns}")
-    return patterns
+    raw = clo.GetAllPatternIDs()
+    log(f"GetAllPatternIDs() returned: {raw} (type: {type(raw)})")
+    if not raw:
+        log("WARNING: no patterns found — open a garment in CLO3D first")
+    return raw
 
 
 def move_pattern(pattern_id, x, y):
     log(f"Moving Pattern[{pattern_id}] to ({x}, {y})")
     if clo:
-        clo.MovePattern(pattern_id, x, y)
+        try:
+            clo.MovePattern(pattern_id, x, y)
+            log(f"  => moved OK")
+        except Exception as e:
+            log(f"  => ERROR: {e}")
 
 
 def simulate():
     log("Running simulation...")
     if clo:
-        clo.Simulate()
-        log("Simulation complete")
+        try:
+            clo.Simulate()
+            log("Simulation complete")
+        except Exception as e:
+            log(f"Simulation ERROR: {e}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
