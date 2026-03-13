@@ -20,11 +20,12 @@ def log(msg):
 
 
 # ── CLO3D detection ───────────────────────────────────────────────────────────
-if "clo" not in dir():
-    clo = None
+# CLO3D injects `clo` into globals — grab it explicitly so functions can use it.
+_clo = globals().get("clo", None)
+if _clo is None:
     log("CLO3D not found — running in stub mode")
 else:
-    log("CLO3D loaded")
+    log(f"CLO3D loaded: {_clo}")
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -38,16 +39,16 @@ def load_avatar(path):
     if not os.path.exists(path):
         log(f"ERROR: Avatar file not found at {path}")
         return
-    if clo:
-        clo.LoadAvatar(path)
+    if _clo is not None:
+        _clo.LoadAvatar(path)
         log("Avatar loaded successfully")
 
 
 def get_patterns():
-    if not clo:
+    if _clo is None:
         log("STUB: returning fake pattern IDs")
         return [0, 1, 2, 3]
-    raw = clo.GetAllPatternIDs()
+    raw = _clo.GetAllPatternIDs()
     log(f"GetAllPatternIDs() returned: {raw} (type: {type(raw)})")
     if not raw:
         log("WARNING: no patterns found — open a garment in CLO3D first")
@@ -56,9 +57,9 @@ def get_patterns():
 
 def move_pattern(pattern_id, x, y):
     log(f"Moving Pattern[{pattern_id}] to ({x}, {y})")
-    if clo:
+    if _clo is not None:
         try:
-            clo.MovePattern(pattern_id, x, y)
+            _clo.MovePattern(pattern_id, x, y)
             log(f"  => moved OK")
         except Exception as e:
             log(f"  => ERROR: {e}")
@@ -66,9 +67,9 @@ def move_pattern(pattern_id, x, y):
 
 def simulate():
     log("Running simulation...")
-    if clo:
+    if _clo is not None:
         try:
-            clo.Simulate()
+            _clo.Simulate()
             log("Simulation complete")
         except Exception as e:
             log(f"Simulation ERROR: {e}")
