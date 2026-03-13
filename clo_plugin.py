@@ -5,12 +5,13 @@ Minimal CLO3D Plugin
 - Move pattern pieces
 """
 
-try:
-    import clo
-    print("CLO3D loaded")
-except ImportError:
+# clo is injected into globals by CLO3D at runtime — no import needed.
+# If running outside CLO3D (e.g. cmd), define a stub so the script doesn't crash.
+if "clo" not in dir():
     clo = None
     print("CLO3D not found — running in stub mode")
+else:
+    print("CLO3D loaded")
 
 
 # ── Config: change these paths to your actual files ──────────────────────────
