@@ -1,0 +1,7 @@
+{
+    "name": "CLO3D AI Design Plugin",
+    "version": "1.0.0",
+    "description": "Load avatar, garment and move pattern pieces",
+    "author": "shari",
+    "main": "clo_plugin.py"
+}
