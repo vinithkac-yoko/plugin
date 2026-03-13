@@ -1,76 +1,83 @@
 """
 Minimal CLO3D Plugin
 - Load an avatar
-- Load a garment
 - Move pattern pieces
 """
 
-# clo is injected into globals by CLO3D at runtime — no import needed.
-# If running outside CLO3D (e.g. cmd), define a stub so the script doesn't crash.
+import os
+
+# ── Log to file (visible after running via Script Editor or Plugin Manager) ───
+LOG_PATH = r"C:\Users\shari\Desktop\clo_log.txt"
+
+# Clear log on each run
+with open(LOG_PATH, "w") as f:
+    f.write("=== CLO3D Plugin Log ===\n")
+
+def log(msg):
+    print(msg)
+    with open(LOG_PATH, "a") as f:
+        f.write(msg + "\n")
+
+
+# ── CLO3D detection ───────────────────────────────────────────────────────────
 if "clo" not in dir():
     clo = None
-    print("CLO3D not found — running in stub mode")
+    log("CLO3D not found — running in stub mode")
 else:
-    print("CLO3D loaded")
+    log("CLO3D loaded")
 
 
-# ── Config: change these paths to your actual files ──────────────────────────
-
-AVATAR_PATH  = r"C:\Users\shari\Documents\CLO3D\Avatar\female_M.avt"
-GARMENT_PATH = r"C:\Users\shari\Documents\CLO3D\Garments\base_dress.zprj"
+# ── Config ────────────────────────────────────────────────────────────────────
+AVATAR_PATH = r"C:\Users\Public\Documents\CLO\CLO Assets\Avatar\Male\MV2.1_Luka.avt"
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def load_avatar(path):
-    print(f"Loading avatar: {path}")
+    log(f"Loading avatar: {path}")
+    if not os.path.exists(path):
+        log(f"ERROR: Avatar file not found at {path}")
+        return
     if clo:
         clo.LoadAvatar(path)
-
-
-def load_garment(path):
-    print(f"Loading garment: {path}")
-    if clo:
-        clo.OpenProject(path)
+        log("Avatar loaded successfully")
 
 
 def get_patterns():
     if not clo:
-        # Stub: return fake pattern IDs for testing
         return [0, 1, 2, 3]
-    return clo.GetAllPatternIDs()
+    patterns = clo.GetAllPatternIDs()
+    log(f"Found {len(patterns)} pattern pieces: {patterns}")
+    return patterns
 
 
 def move_pattern(pattern_id, x, y):
-    name = f"Pattern[{pattern_id}]"
-    print(f"Moving {name} to ({x}, {y})")
+    log(f"Moving Pattern[{pattern_id}] to ({x}, {y})")
     if clo:
         clo.MovePattern(pattern_id, x, y)
 
 
 def simulate():
-    print("Running simulation...")
+    log("Running simulation...")
     if clo:
         clo.Simulate()
+        log("Simulation complete")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def run():
-    # 1. Load avatar and garment
+    log("--- Starting plugin ---")
+
     load_avatar(AVATAR_PATH)
-    load_garment(GARMENT_PATH)
 
-    # 2. Get all pattern pieces
     patterns = get_patterns()
-    print(f"Found {len(patterns)} pattern pieces: {patterns}")
 
-    # 3. Move each pattern piece (hardcoded positions)
     positions = [
-        (  0,    0),   # Front Bodice  — centre
-        (400,    0),   # Back Bodice   — right
-        (  0,  500),   # Front Skirt   — below front
-        (400,  500),   # Back Skirt    — below back
+        (  0,    0),
+        (400,    0),
+        (  0,  500),
+        (400,  500),
     ]
 
     for i, pattern_id in enumerate(patterns):
@@ -78,9 +85,8 @@ def run():
             x, y = positions[i]
             move_pattern(pattern_id, x, y)
 
-    # 4. Simulate draping
     simulate()
-    print("Done.")
+    log("--- Done ---")
 
 
 run()
