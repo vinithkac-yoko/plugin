@@ -52,7 +52,7 @@ class DesignInput:
         return self.image_path is not None and Path(self.image_path).exists()
 
     def summary(self) -> str:
-        parts = [f"Prompt: "{self.prompt}""]
+        parts = [f'Prompt: "{self.prompt}"']
         if self.has_image():
             parts.append(f"Image: {self.image_path}")
         if self.extra_context:
