@@ -1,0 +1,140 @@
+{
+  "_comment": "Base bodice + skirt sloper for a size-M female avatar. All measurements in mm.",
+  "version": "1.0",
+  "avatar": {
+    "size": "M",
+    "measurements": {
+      "bust":           920,
+      "waist":          720,
+      "hip":            980,
+      "shoulder_width": 380,
+      "neck":           360,
+      "back_length":    400,
+      "sleeve_length":  590,
+      "inseam":         790
+    }
+  },
+  "panels": [
+    {
+      "name": "Front Bodice",
+      "vertices": [
+        [0,    0   ],
+        [230,  0   ],
+        [240,  20  ],
+        [245,  60  ],
+        [240,  120 ],
+        [230,  200 ],
+        [220,  280 ],
+        [210,  360 ],
+        [200,  400 ],
+        [0,    400 ]
+      ],
+      "darts": [
+        {
+          "edge_index": 1,
+          "position_mm": 120,
+          "width_mm":    20,
+          "length_mm":   80,
+          "label":       "bust dart"
+        },
+        {
+          "edge_index": 9,
+          "position_mm": 60,
+          "width_mm":    16,
+          "length_mm":   70,
+          "label":       "waist dart"
+        }
+      ],
+      "seam_allowances": {
+        "default_mm": 10
+      },
+      "grain_line_angle_deg": 0
+    },
+    {
+      "name": "Back Bodice",
+      "vertices": [
+        [0,    0   ],
+        [220,  0   ],
+        [228,  20  ],
+        [232,  60  ],
+        [228,  120 ],
+        [220,  200 ],
+        [210,  280 ],
+        [200,  360 ],
+        [190,  400 ],
+        [0,    400 ]
+      ],
+      "darts": [
+        {
+          "edge_index": 9,
+          "position_mm": 50,
+          "width_mm":    14,
+          "length_mm":   65,
+          "label":       "back waist dart"
+        }
+      ],
+      "seam_allowances": {
+        "default_mm": 10
+      },
+      "grain_line_angle_deg": 0
+    },
+    {
+      "name": "Front Skirt",
+      "vertices": [
+        [0,    0   ],
+        [250,  0   ],
+        [270,  200 ],
+        [290,  400 ],
+        [0,    400 ]
+      ],
+      "darts": [],
+      "seam_allowances": {
+        "default_mm": 10,
+        "hem_mm":     30
+      },
+      "grain_line_angle_deg": 0
+    },
+    {
+      "name": "Back Skirt",
+      "vertices": [
+        [0,    0   ],
+        [255,  0   ],
+        [275,  200 ],
+        [295,  400 ],
+        [0,    400 ]
+      ],
+      "darts": [],
+      "seam_allowances": {
+        "default_mm": 10,
+        "hem_mm":     30
+      },
+      "grain_line_angle_deg": 0
+    },
+    {
+      "name": "Sleeve",
+      "vertices": [
+        [0,    0   ],
+        [320,  0   ],
+        [325,  30  ],
+        [320,  60  ],
+        [315,  590 ],
+        [0,    590 ]
+      ],
+      "darts": [],
+      "seam_allowances": {
+        "default_mm": 10,
+        "hem_mm":     25
+      },
+      "grain_line_angle_deg": 0
+    }
+  ],
+  "stitches": [
+    {"panel_a": "Front Bodice", "edge_a": 3,  "panel_b": "Back Bodice",  "edge_b": 3,  "label": "shoulder seam"},
+    {"panel_a": "Front Bodice", "edge_a": 7,  "panel_b": "Back Bodice",  "edge_b": 7,  "label": "side seam bodice"},
+    {"panel_a": "Front Skirt",  "edge_a": 0,  "panel_b": "Front Bodice", "edge_b": 9,  "label": "front waist join"},
+    {"panel_a": "Back Skirt",   "edge_a": 0,  "panel_b": "Back Bodice",  "edge_b": 9,  "label": "back waist join"},
+    {"panel_a": "Front Skirt",  "edge_a": 3,  "panel_b": "Back Skirt",   "edge_b": 3,  "label": "side seam skirt"},
+    {"panel_a": "Sleeve",       "edge_a": 0,  "panel_b": "Front Bodice", "edge_b": 1,  "label": "sleeve cap front"},
+    {"panel_a": "Sleeve",       "edge_a": 5,  "panel_b": "Back Bodice",  "edge_b": 1,  "label": "sleeve cap back"}
+  ]
+}
